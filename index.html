@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>CarScreen</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e14;--surface:#12171f;--card:#1a2030;--border:#2a3444;--primary:#3b8bff;--green:#2ed573;--red:#ff4757;--yellow:#ffa502;--text:#e8edf4;--text2:#6b7d95}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text)}
+.app{display:flex;flex-direction:column;height:100%}
+.top{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:48px;background:var(--surface);border-bottom:1px solid var(--border)}
+.top .t{font-weight:600;font-size:16px}
+.top .gps{font-size:12px;padding:4px 10px;border-radius:12px;background:var(--card)}
+.top .gps.ok{color:var(--green)}
+.top .gps.warn{color:var(--yellow)}
+.top .gps.err{color:var(--red)}
+.main{flex:1;overflow:hidden;position:relative}
+.panel{position:absolute;inset:0;overflow-y:auto;display:none;flex-direction:column}
+.panel.active{display:flex}
+.nav{display:flex;background:var(--surface);border-top:1px solid var(--border);height:60px}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:none;border:none;color:var(--text2);cursor:pointer;font-size:11px}
+.nav button .icon{font-size:22px}
+.nav button.on{color:var(--primary)}
+
+.home{padding:24px;overflow-y:auto}
+.home h1{font-size:24px;margin-bottom:8px}
+.home .sub{color:var(--text2);font-size:14px;margin-bottom:24px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{padding:24px 16px;border-radius:14px;cursor:pointer;background:var(--card);border:1px solid var(--border);text-align:center;transition:transform .1s}
+.tile:active{transform:scale(.96)}
+.tile .i{font-size:36px;margin-bottom:10px}
+.tile .l{font-size:15px;font-weight:600}
+
+/* Connect screen */
+.connect{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:32px;text-align:center}
+.connect h1{font-size:28px;margin-bottom:8px}
+.connect .sub{color:var(--text2);font-size:14px;margin-bottom:32px}
+.connect .code-input{display:flex;gap:8px;margin-bottom:24px}
+.connect input{width:50px;height:60px;font-size:28px;text-align:center;background:var(--card);border:2px solid var(--border);border-radius:12px;color:var(--text);text-transform:uppercase;outline:none}
+.connect input:focus{border-color:var(--primary)}
+.connect button{padding:16px 48px;border-radius:28px;border:none;background:var(--primary);color:#fff;font-size:16px;font-weight:600;cursor:pointer}
+.connect button:disabled{opacity:0.5}
+.connect .status{margin-top:16px;font-size:14px;color:var(--text2)}
+.connect .status.ok{color:var(--green)}
+.connect .status.err{color:var(--red)}
+
+/* YouTube */
+.yt{display:flex;flex-direction:column;height:100%}
+.search{display:flex;gap:8px;padding:12px;background:var(--surface)}
+.search input{flex:1;padding:12px 16px;border-radius:24px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:15px;outline:none}
+.search button{padding:12px 20px;border-radius:24px;border:none;background:#ff0033;color:#fff;font-weight:600;cursor:pointer;font-size:14px}
+.player{background:#000;aspect-ratio:16/9;max-height:40vh;position:relative}
+.player.hide{display:none}
+.player iframe{width:100%;height:100%;border:none}
+.player-close{position:absolute;top:8px;right:8px;z-index:10;background:rgba(0,0,0,0.7);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer}
+.results{flex:1;overflow-y:auto;padding:12px}
+.vlist{display:grid;gap:10px}
+.vcard{display:flex;gap:12px;padding:10px;background:var(--card);border-radius:10px;cursor:pointer}
+.vcard:active{opacity:.8}
+.vcard .th{width:140px;height:80px;border-radius:8px;overflow:hidden;background:var(--border);flex-shrink:0}
+.vcard .th img{width:100%;height:100%;object-fit:cover}
+.vcard .inf{display:flex;flex-direction:column;justify-content:center;overflow:hidden;flex:1}
+.vcard .tt{font-size:13px;font-weight:600;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.3}
+.vcard .ch{font-size:11px;color:var(--text2);margin-top:6px}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;color:var(--text2);text-align:center}
+.empty .icon{font-size:48px;margin-bottom:16px}
+
+/* Maps */
+.maps{display:flex;flex-direction:column;height:100%}
+.maps .bar{padding:12px;background:var(--surface);position:relative}
+.maps .bar .row{display:flex;gap:8px}
+.maps .bar input{flex:1;padding:12px 16px;border-radius:24px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:15px;outline:none}
+.maps .bar button{padding:12px 20px;border-radius:24px;border:none;background:var(--green);color:#fff;font-weight:600;cursor:pointer;font-size:14px}
+.suggestions{position:absolute;top:100%;left:12px;right:12px;background:var(--card);border:1px solid var(--border);border-radius:12px;max-height:200px;overflow-y:auto;z-index:1001;display:none}
+.suggestions.show{display:block}
+.suggestions .item{padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--border);font-size:14px}
+.suggestions .item:last-child{border-bottom:none}
+.suggestions .item:active{background:var(--surface)}
+.suggestions .item .name{font-weight:600}
+.suggestions .item .addr{font-size:12px;color:var(--text2);margin-top:2px}
+.maps .mapwrap{flex:1;position:relative}
+#map{width:100%;height:100%;background:#1a1a2e}
+.hud{position:absolute;bottom:16px;left:12px;right:12px;z-index:1000;display:flex;justify-content:space-between;align-items:flex-end;pointer-events:none}
+.hud>*{pointer-events:auto}
+.speed-box{background:rgba(10,14,20,.95);border-radius:12px;padding:12px 16px;border:1px solid var(--border)}
+.speed-box .spd{font-size:36px;font-weight:700}
+.speed-box .unit{font-size:12px;color:var(--text2);margin-left:2px}
+.map-btns{display:flex;flex-direction:column;gap:8px}
+.map-btns button{width:44px;height:44px;border-radius:12px;background:rgba(10,14,20,.95);border:1px solid var(--border);color:var(--text);font-size:20px;cursor:pointer}
+.map-btns button.on{color:var(--primary);border-color:var(--primary)}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="top">
+<div class="t">🚗 CarScreen</div>
+<div class="gps warn" id="gpsStatus">📍 Waiting...</div>
+</div>
+<div class="main">
+
+<!-- Connect screen -->
+<div class="panel active" id="p-connect">
+<div class="connect">
+<h1>Enter Code</h1>
+<p class="sub">From your CarScreen Hub app</p>
+<div class="code-input">
+<input type="text" maxlength="1" id="c1" oninput="codeInput(this,1)" autofocus>
+<input type="text" maxlength="1" id="c2" oninput="codeInput(this,2)">
+<input type="text" maxlength="1" id="c3" oninput="codeInput(this,3)">
+<input type="text" maxlength="1" id="c4" oninput="codeInput(this,4)">
+<input type="text" maxlength="1" id="c5" oninput="codeInput(this,5)">
+<input type="text" maxlength="1" id="c6" oninput="codeInput(this,6)">
+</div>
+<button onclick="connect()" id="connectBtn">Connect</button>
+<div class="status" id="connectStatus"></div>
+</div>
+</div>
+
+<!-- Home -->
+<div class="panel" id="p-home">
+<div class="home">
+<h1>CarScreen</h1>
+<p class="sub">Your in-car entertainment hub</p>
+<div class="tiles">
+<div class="tile" onclick="go('yt')"><div class="i">▶️</div><div class="l">YouTube</div></div>
+<div class="tile" onclick="go('maps')"><div class="i">🗺️</div><div class="l">Navigation</div></div>
+</div>
+</div>
+</div>
+
+<!-- YouTube -->
+<div class="panel" id="p-yt">
+<div class="yt">
+<div class="search">
+<input id="ytQ" placeholder="Search YouTube..." onkeydown="if(event.key==='Enter')ytSearch()">
+<button onclick="ytSearch()">Search</button>
+</div>
+<div class="player hide" id="ytP">
+<button class="player-close" onclick="ytClose()">✕</button>
+<iframe id="ytF" allow="autoplay;fullscreen;encrypted-media" allowfullscreen frameborder="0"></iframe>
+</div>
+<div class="results" id="ytR"><div class="empty"><div class="icon">🎬</div>Search for videos above</div></div>
+</div>
+</div>
+
+<!-- Maps -->
+<div class="panel" id="p-maps">
+<div class="maps">
+<div class="bar" id="searchBar">
+<div class="row">
+<input id="destInput" placeholder="Search destination..." oninput="searchPlace()" onkeydown="if(event.key==='Enter')selectFirst()">
+<button onclick="selectFirst()">Go</button>
+</div>
+<div class="suggestions" id="suggestions"></div>
+</div>
+<div class="mapwrap">
+<div id="map"></div>
+<div class="hud">
+<div class="speed-box"><span class="spd" id="speed">0</span><span class="unit">km/h</span></div>
+<div class="map-btns">
+<button onclick="zoomIn()">+</button>
+<button onclick="zoomOut()">−</button>
+<button id="lockBtn" class="on" onclick="toggleLock()">🎯</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<nav class="nav" id="nav" style="display:none">
+<button class="on" onclick="go('home')"><span class="icon">🏠</span>Home</button>
+<button onclick="go('yt')"><span class="icon">▶️</span>YouTube</button>
+<button onclick="go('maps')"><span class="icon">🗺️</span>Maps</button>
+</nav>
+</div>
+
+<script>
+var map, marker, sessionCode = '', connected = false;
+var lat = 0, lng = 0, speed = 0, bearing = 0;
+var locked = true, evtSource = null;
+
+// Check URL hash for code
+(function() {
+    var hash = window.location.hash.replace('#', '');
+    if (hash && hash.length === 6) {
+        for (var i = 0; i < 6; i++) {
+            document.getElementById('c' + (i+1)).value = hash[i];
+        }
+        setTimeout(connect, 500);
+    }
+})();
+
+function codeInput(el, n) {
+    el.value = el.value.toUpperCase();
+    if (el.value && n < 6) {
+        document.getElementById('c' + (n+1)).focus();
+    }
+}
+
+function getCode() {
+    var code = '';
+    for (var i = 1; i <= 6; i++) {
+        code += document.getElementById('c' + i).value;
+    }
+    return code.toUpperCase();
+}
+
+function connect() {
+    var code = getCode();
+    if (code.length !== 6) {
+        showStatus('Enter 6-character code', 'err');
+        return;
+    }
+    
+    sessionCode = code;
+    showStatus('Connecting...', '');
+    document.getElementById('connectBtn').disabled = true;
+    
+    // Connect to ntfy.sh for GPS updates
+    if (evtSource) evtSource.close();
+    
+    var topic = 'carscreen-' + code;
+    evtSource = new EventSource('https://ntfy.sh/' + topic + '/sse');
+    
+    evtSource.onmessage = function(e) {
+        try {
+            var msg = JSON.parse(e.data);
+            if (msg.message) {
+                var gps = JSON.parse(msg.message);
+                onGPS(gps);
+                if (!connected) {
+                    connected = true;
+                    showConnected();
+                }
+            }
+        } catch(err) {}
+    };
+    
+    evtSource.onerror = function() {
+        if (!connected) {
+            showStatus('Connection failed. Check code.', 'err');
+            document.getElementById('connectBtn').disabled = false;
+        }
+    };
+    
+    // Timeout
+    setTimeout(function() {
+        if (!connected) {
+            showStatus('No GPS signal. Is the app running?', 'err');
+            document.getElementById('connectBtn').disabled = false;
+        }
+    }, 10000);
+}
+
+function showStatus(msg, type) {
+    var el = document.getElementById('connectStatus');
+    el.textContent = msg;
+    el.className = 'status ' + type;
+}
+
+function showConnected() {
+    document.getElementById('p-connect').classList.remove('active');
+    document.getElementById('p-home').classList.add('active');
+    document.getElementById('nav').style.display = 'flex';
+    document.getElementById('gpsStatus').className = 'gps ok';
+    document.getElementById('gpsStatus').textContent = '📍 Connected';
+    initMap();
+}
+
+function onGPS(data) {
+    lat = data.lat;
+    lng = data.lng;
+    speed = Math.round((data.speed || 0) * 3.6); // m/s to km/h
+    bearing = data.bearing || 0;
+    
+    document.getElementById('speed').textContent = speed;
+    
+    if (map && marker) {
+        marker.setLatLng([lat, lng]);
+        if (locked) {
+            map.setView([lat, lng], map.getZoom());
+        }
+    }
+    
+    document.getElementById('gpsStatus').className = 'gps ok';
+    document.getElementById('gpsStatus').textContent = '📍 ' + lat.toFixed(4) + ', ' + lng.toFixed(4);
+}
+
+function initMap() {
+    if (map) return;
+    
+    map = L.map('map', {
+        center: [lat || 23.5880, lng || 58.3829],
+        zoom: 16,
+        zoomControl: false
+    });
+    
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19
+    }).addTo(map);
+    
+    marker = L.circleMarker([lat || 23.5880, lng || 58.3829], {
+        radius: 10,
+        fillColor: '#3b8bff',
+        fillOpacity: 1,
+        color: '#fff',
+        weight: 3
+    }).addTo(map);
+}
+
+function go(p) {
+    document.querySelectorAll('.panel').forEach(function(el) {
+        el.classList.remove('active');
+    });
+    document.getElementById('p-' + p).classList.add('active');
+    
+    document.querySelectorAll('.nav button').forEach(function(btn, i) {
+        btn.classList.toggle('on', 
+            (p === 'home' && i === 0) || 
+            (p === 'yt' && i === 1) || 
+            (p === 'maps' && i === 2));
+    });
+    
+    if (p === 'maps' && map) {
+        setTimeout(function() { map.invalidateSize(); }, 100);
+    }
+}
+
+function zoomIn() { if (map) map.zoomIn(); }
+function zoomOut() { if (map) map.zoomOut(); }
+function toggleLock() {
+    locked = !locked;
+    document.getElementById('lockBtn').classList.toggle('on', locked);
+    if (locked && map) map.setView([lat, lng], map.getZoom());
+}
+
+// YouTube (via Invidious API - no server needed)
+var invidiousInstances = [
+    'https://invidious.snopyta.org',
+    'https://vid.puffyan.us',
+    'https://invidious.kavin.rocks'
+];
+var invIdx = 0;
+
+async function ytSearch() {
+    var q = document.getElementById('ytQ').value.trim();
+    if (!q) return;
+    
+    var results = document.getElementById('ytR');
+    results.innerHTML = '<div class="empty"><div class="icon">🔍</div>Searching...</div>';
+    
+    // Try Invidious instances
+    for (var i = 0; i < invidiousInstances.length; i++) {
+        try {
+            var idx = (invIdx + i) % invidiousInstances.length;
+            var url = invidiousInstances[idx] + '/api/v1/search?q=' + encodeURIComponent(q) + '&type=video';
+            var res = await fetch(url);
+            if (!res.ok) continue;
+            var data = await res.json();
+            invIdx = idx; // Remember working instance
+            
+            if (!data || data.length === 0) {
+                results.innerHTML = '<div class="empty"><div class="icon">😕</div>No results</div>';
+                return;
+            }
+            
+            var html = '<div class="vlist">';
+            data.slice(0, 20).forEach(function(v) {
+                var thumb = v.videoThumbnails && v.videoThumbnails[0] ? v.videoThumbnails[0].url : '';
+                var dur = formatDur(v.lengthSeconds);
+                html += '<div class="vcard" onclick="ytPlay(\'' + v.videoId + '\')">' +
+                    '<div class="th"><img src="' + esc(thumb) + '" onerror="this.style.display=\'none\'"></div>' +
+                    '<div class="inf"><div class="tt">' + esc(v.title) + '</div>' +
+                    '<div class="ch">' + esc(v.author) + ' • ' + dur + '</div></div></div>';
+            });
+            results.innerHTML = html + '</div>';
+            return;
+        } catch(e) {}
+    }
+    
+    results.innerHTML = '<div class="empty"><div class="icon">❌</div>Search failed. Try again.</div>';
+}
+
+function ytPlay(id) {
+    var player = document.getElementById('ytP');
+    var iframe = document.getElementById('ytF');
+    player.classList.remove('hide');
+    iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+}
+
+function ytClose() {
+    document.getElementById('ytP').classList.add('hide');
+    document.getElementById('ytF').src = '';
+}
+
+function formatDur(s) {
+    if (!s) return '';
+    var m = Math.floor(s / 60);
+    var sec = s % 60;
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+function esc(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Place search (Nominatim)
+var searchTimeout;
+function searchPlace() {
+    clearTimeout(searchTimeout);
+    var q = document.getElementById('destInput').value.trim();
+    if (q.length < 3) {
+        document.getElementById('suggestions').classList.remove('show');
+        return;
+    }
+    searchTimeout = setTimeout(async function() {
+        try {
+            var url = 'https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(q) + '&limit=5';
+            if (lat) url += '&viewbox=' + (lng-0.5) + ',' + (lat+0.5) + ',' + (lng+0.5) + ',' + (lat-0.5);
+            var res = await fetch(url);
+            var data = await res.json();
+            
+            var sug = document.getElementById('suggestions');
+            if (data.length === 0) {
+                sug.classList.remove('show');
+                return;
+            }
+            
+            sug.innerHTML = data.map(function(p) {
+                return '<div class="item" onclick="selectPlace(' + p.lat + ',' + p.lon + ',\'' + esc(p.display_name) + '\')">' +
+                    '<div class="name">' + esc(p.display_name.split(',')[0]) + '</div>' +
+                    '<div class="addr">' + esc(p.display_name) + '</div></div>';
+            }).join('');
+            sug.classList.add('show');
+        } catch(e) {}
+    }, 300);
+}
+
+function selectPlace(plat, plng, name) {
+    document.getElementById('suggestions').classList.remove('show');
+    document.getElementById('destInput').value = name.split(',')[0];
+    if (map) {
+        map.setView([plat, plng], 15);
+        L.marker([plat, plng]).addTo(map).bindPopup(name).openPopup();
+    }
+}
+
+function selectFirst() {
+    var first = document.querySelector('#suggestions .item');
+    if (first) first.click();
+}
+</script>
+</body>
+</html>
