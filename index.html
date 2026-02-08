@@ -14,53 +14,35 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,sans-serif;ba
 .top{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:48px;background:var(--surface);border-bottom:1px solid var(--border)}
 .top .t{font-weight:600;font-size:16px}
 .top .gps{font-size:12px;padding:4px 10px;border-radius:12px;background:var(--card)}
-.top .gps.ok{color:var(--green)}
-.top .gps.warn{color:var(--yellow)}
-.top .gps.err{color:var(--red)}
+.top .gps.ok{color:var(--green)}.top .gps.warn{color:var(--yellow)}.top .gps.err{color:var(--red)}
 .main{flex:1;overflow:hidden;position:relative}
 .panel{position:absolute;inset:0;overflow-y:auto;display:none;flex-direction:column}
 .panel.active{display:flex}
 .nav{display:flex;background:var(--surface);border-top:1px solid var(--border);height:60px}
 .nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:none;border:none;color:var(--text2);cursor:pointer;font-size:11px}
-.nav button .icon{font-size:22px}
-.nav button.on{color:var(--primary)}
-
-.home{padding:24px;overflow-y:auto}
-.home h1{font-size:24px;margin-bottom:8px}
-.home .sub{color:var(--text2);font-size:14px;margin-bottom:24px}
+.nav button .icon{font-size:22px}.nav button.on{color:var(--primary)}
+.home{padding:24px;overflow-y:auto}.home h1{font-size:24px;margin-bottom:8px}.home .sub{color:var(--text2);font-size:14px;margin-bottom:24px}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .tile{padding:24px 16px;border-radius:14px;cursor:pointer;background:var(--card);border:1px solid var(--border);text-align:center;transition:transform .1s}
-.tile:active{transform:scale(.96)}
-.tile .i{font-size:36px;margin-bottom:10px}
-.tile .l{font-size:15px;font-weight:600}
-
+.tile:active{transform:scale(.96)}.tile .i{font-size:36px;margin-bottom:10px}.tile .l{font-size:15px;font-weight:600}
 .connect{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:32px;text-align:center}
-.connect h1{font-size:28px;margin-bottom:8px}
-.connect .sub{color:var(--text2);font-size:14px;margin-bottom:32px}
+.connect h1{font-size:28px;margin-bottom:8px}.connect .sub{color:var(--text2);font-size:14px;margin-bottom:32px}
 .connect .code-input{display:flex;gap:8px;margin-bottom:24px}
 .connect input{width:50px;height:60px;font-size:28px;text-align:center;background:var(--card);border:2px solid var(--border);border-radius:12px;color:var(--text);text-transform:uppercase;outline:none}
 .connect input:focus{border-color:var(--primary)}
 .connect button{padding:16px 48px;border-radius:28px;border:none;background:var(--primary);color:#fff;font-size:16px;font-weight:600;cursor:pointer}
-.connect button:disabled{opacity:0.5}
-.connect .status{margin-top:16px;font-size:14px;color:var(--text2)}
-.connect .status.ok{color:var(--green)}
-.connect .status.err{color:var(--red)}
-
+.connect button:disabled{opacity:0.5}.connect .status{margin-top:16px;font-size:14px;color:var(--text2)}.connect .status.ok{color:var(--green)}.connect .status.err{color:var(--red)}
 .yt{display:flex;flex-direction:column;height:100%}
 .search{display:flex;gap:8px;padding:12px;background:var(--surface)}
 .search input{flex:1;padding:12px 16px;border-radius:24px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:15px;outline:none}
 .search button{padding:12px 20px;border-radius:24px;border:none;background:#ff0033;color:#fff;font-weight:600;cursor:pointer;font-size:14px}
-.player{background:#000;aspect-ratio:16/9;max-height:40vh;position:relative}
-.player.hide{display:none}
+.player{background:#000;aspect-ratio:16/9;max-height:40vh;position:relative}.player.hide{display:none}
 .player iframe{width:100%;height:100%;border:none}
 .player-close{position:absolute;top:8px;right:8px;z-index:10;background:rgba(0,0,0,0.7);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer}
-.results{flex:1;overflow-y:auto;padding:12px}
-.vlist{display:grid;gap:10px}
-.vcard{display:flex;gap:12px;padding:10px;background:var(--card);border-radius:10px;cursor:pointer}
-.vcard:active{opacity:.8}
+.results{flex:1;overflow-y:auto;padding:12px}.vlist{display:grid;gap:10px}
+.vcard{display:flex;gap:12px;padding:10px;background:var(--card);border-radius:10px;cursor:pointer}.vcard:active{opacity:.8}
 .vcard .th{width:140px;height:80px;border-radius:8px;overflow:hidden;background:var(--border);flex-shrink:0}
-.vcard .th.round{width:80px;border-radius:50%}
-.vcard .th img{width:100%;height:100%;object-fit:cover}
+.vcard .th.round{width:80px;border-radius:50%}.vcard .th img{width:100%;height:100%;object-fit:cover}
 .vcard.channel{border-left:3px solid var(--primary)}
 .ch-badge{background:var(--primary);color:#fff;font-size:9px;padding:2px 6px;border-radius:4px;margin-right:6px}
 .vcard .inf{display:flex;flex-direction:column;justify-content:center;overflow:hidden;flex:1}
@@ -68,7 +50,6 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,sans-serif;ba
 .vcard .ch{font-size:11px;color:var(--text2);margin-top:6px}
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;color:var(--text2);text-align:center}
 .empty .icon{font-size:48px;margin-bottom:16px}
-
 .maps{display:flex;flex-direction:column;height:100%}
 .maps .bar{padding:12px;background:var(--surface);position:relative}
 .maps .bar .row{display:flex;gap:8px}
@@ -77,17 +58,14 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,sans-serif;ba
 .suggestions{position:absolute;top:100%;left:12px;right:12px;background:var(--card);border:1px solid var(--border);border-radius:12px;max-height:200px;overflow-y:auto;z-index:1001;display:none}
 .suggestions.show{display:block}
 .suggestions .item{padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--border);font-size:14px}
-.suggestions .item:last-child{border-bottom:none}
-.suggestions .item:active{background:var(--surface)}
-.suggestions .item .name{font-weight:600}
-.suggestions .item .addr{font-size:12px;color:var(--text2);margin-top:2px}
+.suggestions .item:last-child{border-bottom:none}.suggestions .item:active{background:var(--surface)}
+.suggestions .item .name{font-weight:600}.suggestions .item .addr{font-size:12px;color:var(--text2);margin-top:2px}
 .maps .mapwrap{flex:1;position:relative}
 #map{width:100%;height:100%;background:#1a1a2e}
 .hud{position:absolute;bottom:16px;left:12px;right:12px;z-index:1000;display:flex;justify-content:space-between;align-items:flex-end;pointer-events:none}
 .hud>*{pointer-events:auto}
 .speed-box{background:rgba(10,14,20,.95);border-radius:12px;padding:12px 16px;border:1px solid var(--border)}
-.speed-box .spd{font-size:36px;font-weight:700}
-.speed-box .unit{font-size:12px;color:var(--text2);margin-left:2px}
+.speed-box .spd{font-size:36px;font-weight:700}.speed-box .unit{font-size:12px;color:var(--text2);margin-left:2px}
 .map-btns{display:flex;flex-direction:column;gap:8px}
 .map-btns button{width:44px;height:44px;border-radius:12px;background:rgba(10,14,20,.95);border:1px solid var(--border);color:var(--text);font-size:20px;cursor:pointer}
 .map-btns button.on{color:var(--primary);border-color:var(--primary)}
@@ -95,12 +73,8 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,sans-serif;ba
 </head>
 <body>
 <div class="app">
-<div class="top">
-<div class="t">🚗 CarScreen</div>
-<div class="gps warn" id="gpsStatus">📍 Waiting...</div>
-</div>
+<div class="top"><div class="t">🚗 CarScreen v3</div><div class="gps warn" id="gpsStatus">📍 Waiting...</div></div>
 <div class="main">
-
 <div class="panel active" id="p-connect">
 <div class="connect">
 <h1>Enter Code</h1>
@@ -117,7 +91,6 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,sans-serif;ba
 <div class="status" id="connectStatus"></div>
 </div>
 </div>
-
 <div class="panel" id="p-home">
 <div class="home">
 <h1>CarScreen</h1>
@@ -128,7 +101,6 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,sans-serif;ba
 </div>
 </div>
 </div>
-
 <div class="panel" id="p-yt">
 <div class="yt">
 <div class="search">
@@ -137,15 +109,14 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,sans-serif;ba
 </div>
 <div class="player hide" id="ytP">
 <button class="player-close" onclick="ytClose()">✕</button>
-<iframe id="ytF" allow="autoplay;fullscreen;encrypted-media" allowfullscreen frameborder="0"></iframe>
+<iframe id="ytF" allow="autoplay;fullscreen;encrypted-media" allowfullscreen></iframe>
 </div>
 <div class="results" id="ytR"><div class="empty"><div class="icon">🎬</div>Search for videos above</div></div>
 </div>
 </div>
-
 <div class="panel" id="p-maps">
 <div class="maps">
-<div class="bar" id="searchBar">
+<div class="bar">
 <div class="row">
 <input id="destInput" placeholder="Search destination..." oninput="placeSearch()" onkeydown="if(event.key==='Enter')selectFirst()">
 <button onclick="selectFirst()">Go</button>
@@ -165,7 +136,6 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,sans-serif;ba
 </div>
 </div>
 </div>
-
 </div>
 <nav class="nav" id="nav" style="display:none">
 <button class="on" onclick="go('home')"><span class="icon">🏠</span>Home</button>
@@ -173,19 +143,17 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,sans-serif;ba
 <button onclick="go('maps')"><span class="icon">🗺️</span>Maps</button>
 </nav>
 </div>
-
 <script>
 var map, marker, sessionCode = '', connected = false;
-var lat = 0, lng = 0, speed = 0, bearing = 0;
-var locked = true, evtSource = null;
-var pendingCallbacks = {};
+var lat = 0, lng = 0, speed = 0, bearing = 0, locked = true;
+var evtSource = null, pendingCallbacks = {};
 
-// Check URL hash for code
+// Auto-connect from URL hash
 (function() {
-    var hash = window.location.hash.replace('#', '');
-    if (hash && hash.length === 6) {
+    var h = window.location.hash.replace('#', '');
+    if (h && h.length === 6) {
         for (var i = 0; i < 6; i++) {
-            document.getElementById('c' + (i+1)).value = hash[i];
+            document.getElementById('c' + (i + 1)).value = h[i];
         }
         setTimeout(connect, 500);
     }
@@ -193,18 +161,21 @@ var pendingCallbacks = {};
 
 function codeInput(el, n) {
     el.value = el.value.toUpperCase();
-    if (el.value && n < 6) document.getElementById('c' + (n+1)).focus();
+    if (el.value && n < 6) document.getElementById('c' + (n + 1)).focus();
 }
 
 function getCode() {
-    var code = '';
-    for (var i = 1; i <= 6; i++) code += document.getElementById('c' + i).value;
-    return code.toUpperCase();
+    var c = '';
+    for (var i = 1; i <= 6; i++) c += document.getElementById('c' + i).value;
+    return c.toUpperCase();
 }
 
 function connect() {
     var code = getCode();
-    if (code.length !== 6) { showStatus('Enter 6-character code', 'err'); return; }
+    if (code.length !== 6) {
+        showStatus('Enter 6-character code', 'err');
+        return;
+    }
     
     sessionCode = code;
     showStatus('Connecting...', '');
@@ -212,8 +183,11 @@ function connect() {
     
     if (evtSource) evtSource.close();
     
-    // Listen for data from phone
-    evtSource = new EventSource('https://ntfy.sh/carscreen-' + code + '/sse');
+    // LISTEN on GPS topic: carscreen-XXXXXX (NO -cmd-)
+    var gpsUrl = 'https://ntfy.sh/carscreen-' + code + '/sse';
+    console.log('Listening on GPS topic:', gpsUrl);
+    
+    evtSource = new EventSource(gpsUrl);
     
     evtSource.onmessage = function(e) {
         try {
@@ -221,9 +195,14 @@ function connect() {
             if (msg.message) {
                 var data = JSON.parse(msg.message);
                 handleMessage(data);
-                if (!connected) { connected = true; showConnected(); }
+                if (!connected) {
+                    connected = true;
+                    showConnected();
+                }
             }
-        } catch(err) {}
+        } catch (err) {
+            console.error('Parse error:', err);
+        }
     };
     
     evtSource.onerror = function() {
@@ -235,7 +214,7 @@ function connect() {
     
     setTimeout(function() {
         if (!connected) {
-            showStatus('No signal. Is the app running?', 'err');
+            showStatus('No signal. Is app running?', 'err');
             document.getElementById('connectBtn').disabled = false;
         }
     }, 15000);
@@ -243,18 +222,15 @@ function connect() {
 
 function handleMessage(data) {
     var type = data.type;
-    console.log('Received message type:', type, data);
     
     if (type === 'gps') {
         onGPS(data);
     } else if (type === 'yt_results' || type === 'place_results') {
-        console.log('Got results for id:', data.id, 'count:', data.results ? data.results.length : 0);
+        console.log('Got results:', type, data.id);
         var cb = pendingCallbacks[data.id];
         if (cb) {
-            cb(data.results);
+            cb(data.results || []);
             delete pendingCallbacks[data.id];
-        } else {
-            console.log('No callback found for id:', data.id);
         }
     }
 }
@@ -264,42 +240,27 @@ function sendCommand(cmd, callback) {
     cmd.id = id;
     if (callback) pendingCallbacks[id] = callback;
     
-    var url = 'https://ntfy.sh/carscreen-cmd-' + sessionCode;  // Same topic as GPS!
-    var retries = 0;
+    // SEND to COMMAND topic: carscreen-cmd-XXXXXX (WITH -cmd-)
+    var cmdUrl = 'https://ntfy.sh/carscreen-cmd-' + sessionCode;
+    console.log('Sending to CMD topic:', cmdUrl, cmd);
     
-    function doSend() {
-        console.log('Sending command (attempt ' + (retries+1) + '):', url, cmd);
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(cmd),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(function(r) {
-            console.log('Command status:', r.status);
-            if (r.status === 429 && retries < 5) {
-                retries++;
-                var delay = 2000 * retries; // 2s, 4s, 6s, 8s, 10s
-                console.log('Rate limited, retrying in', delay, 'ms');
-                setTimeout(doSend, delay);
-            }
-        }).catch(function(e) {
-            console.error('Command send failed:', e);
-            if (retries < 3) {
-                retries++;
-                setTimeout(doSend, 3000);
-            }
-        });
-    }
+    fetch(cmdUrl, {
+        method: 'POST',
+        body: JSON.stringify(cmd)
+    }).then(function(r) {
+        console.log('Command sent, status:', r.status);
+    }).catch(function(e) {
+        console.error('Command failed:', e);
+    });
     
-    doSend();
-    
-    // Timeout
+    // Timeout after 30s
     setTimeout(function() {
         if (pendingCallbacks[id]) {
-            console.log('Command timeout:', id);
+            console.log('Timeout:', id);
             pendingCallbacks[id]([]);
             delete pendingCallbacks[id];
         }
-    }, 60000);
+    }, 30000);
 }
 
 function showStatus(msg, type) {
@@ -330,13 +291,11 @@ function onGPS(data) {
         if (locked) map.setView([lat, lng], map.getZoom());
     }
     
-    document.getElementById('gpsStatus').className = 'gps ok';
     document.getElementById('gpsStatus').textContent = '📍 ' + lat.toFixed(4) + ', ' + lng.toFixed(4);
 }
 
 function initMap() {
     if (map) return;
-    
     map = L.map('map', { center: [lat || 23.58, lng || 58.38], zoom: 16, zoomControl: false });
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(map);
     marker = L.circleMarker([lat || 23.58, lng || 58.38], {
@@ -348,7 +307,7 @@ function go(p) {
     document.querySelectorAll('.panel').forEach(function(el) { el.classList.remove('active'); });
     document.getElementById('p-' + p).classList.add('active');
     document.querySelectorAll('.nav button').forEach(function(btn, i) {
-        btn.classList.toggle('on', (p==='home'&&i===0)||(p==='yt'&&i===1)||(p==='maps'&&i===2));
+        btn.classList.toggle('on', (p === 'home' && i === 0) || (p === 'yt' && i === 1) || (p === 'maps' && i === 2));
     });
     if (p === 'maps' && map) setTimeout(function() { map.invalidateSize(); }, 100);
 }
@@ -361,20 +320,20 @@ function toggleLock() {
     if (locked && map) map.setView([lat, lng], map.getZoom());
 }
 
-// YouTube - search via phone
 function ytSearch() {
     var q = document.getElementById('ytQ').value.trim();
     if (!q) return;
     
     var results = document.getElementById('ytR');
-    results.innerHTML = '<div class="empty"><div class="icon">🔍</div>Searching via phone...<br><small>Code: ' + sessionCode + '</small></div>';
+    results.innerHTML = '<div class="empty"><div class="icon">🔍</div>Searching via phone...</div>';
     
-    console.log('YouTube search:', q, 'session:', sessionCode);
+    console.log('YouTube search:', q);
     
     sendCommand({ type: 'yt_search', q: q }, function(data) {
-        console.log('YouTube results received:', data);
+        console.log('YouTube results:', data ? data.length : 0);
+        
         if (!data || data.length === 0) {
-            results.innerHTML = '<div class="empty"><div class="icon">😕</div>No results<br><small>Check phone app is running</small></div>';
+            results.innerHTML = '<div class="empty"><div class="icon">😕</div>No results</div>';
             return;
         }
         
@@ -383,14 +342,14 @@ function ytSearch() {
             var thumb = v.thumbnail || '';
             if (thumb.startsWith('//')) thumb = 'https:' + thumb;
             var isChannel = v.type === 'channel';
-            var onclick = isChannel ? 'ytChannel(\'' + v.id + '\')' : 'ytPlay(\'' + v.id + '\')';
+            var onclick = isChannel ? "ytChannel('" + v.id + "')" : "ytPlay('" + v.id + "')";
             var badge = isChannel ? '<span class="ch-badge">CHANNEL</span>' : '';
             var info = isChannel ? (v.subs || '') : (v.channel || '') + ' • ' + (v.duration || '');
             
-            html += '<div class="vcard' + (isChannel ? ' channel' : '') + '" onclick="' + onclick + '">' +
-                '<div class="th' + (isChannel ? ' round' : '') + '"><img src="' + esc(thumb) + '" onerror="this.style.display=\'none\'"></div>' +
-                '<div class="inf"><div class="tt">' + badge + esc(v.title) + '</div>' +
-                '<div class="ch">' + esc(info) + '</div></div></div>';
+            html += '<div class="vcard' + (isChannel ? ' channel' : '') + '" onclick="' + onclick + '">';
+            html += '<div class="th' + (isChannel ? ' round' : '') + '"><img src="' + esc(thumb) + '" onerror="this.style.display=\'none\'"></div>';
+            html += '<div class="inf"><div class="tt">' + badge + esc(v.title) + '</div>';
+            html += '<div class="ch">' + esc(info) + '</div></div></div>';
         });
         results.innerHTML = html + '</div>';
     });
@@ -415,25 +374,28 @@ function ytClose() {
     document.getElementById('ytF').src = '';
 }
 
-// Place search - via phone
 var searchTimeout;
 function placeSearch() {
     clearTimeout(searchTimeout);
     var q = document.getElementById('destInput').value.trim();
-    if (q.length < 3) { document.getElementById('suggestions').classList.remove('show'); return; }
+    if (q.length < 3) {
+        document.getElementById('suggestions').classList.remove('show');
+        return;
+    }
     
     searchTimeout = setTimeout(function() {
-        console.log('Place search:', q, 'at', lat, lng);
-        
         var sug = document.getElementById('suggestions');
         sug.innerHTML = '<div class="item"><div class="name">Searching...</div></div>';
         sug.classList.add('show');
         
+        console.log('Place search:', q);
+        
         sendCommand({ type: 'place_search', q: q, lat: lat, lng: lng }, function(data) {
-            console.log('Place results:', data);
-            if (!data || data.length === 0) { 
+            console.log('Place results:', data ? data.length : 0);
+            
+            if (!data || data.length === 0) {
                 sug.innerHTML = '<div class="item"><div class="name">No results</div></div>';
-                return; 
+                return;
             }
             
             sug.innerHTML = data.map(function(p) {
@@ -461,7 +423,7 @@ function selectFirst() {
 
 function esc(s) {
     if (!s) return '';
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 </script>
 </body>
