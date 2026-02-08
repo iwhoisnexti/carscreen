@@ -264,7 +264,7 @@ function sendCommand(cmd, callback) {
     cmd.id = id;
     if (callback) pendingCallbacks[id] = callback;
     
-    var url = 'https://ntfy.sh/carscreen-' + sessionCode;  // Same topic as GPS!
+    var url = 'https://ntfy.sh/carscreen-cmd-' + sessionCode;  // Same topic as GPS!
     var retries = 0;
     
     function doSend() {
